@@ -1,0 +1,57 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+    
+    <div class="menu-container">
+      <div class="menu-title">{{ 'menu.title' | translate }}</div>
+
+      <div class="menu-item">
+        <a mat-list-item routerLink="/products">{{ 'menu.list' | translate }}</a>
+      </div>
+      <div class="menu-divider"></div>
+
+      <div class="menu-item">
+        <a mat-list-item routerLink="/products/new">{{ 'menu.add' | translate }}</a>
+      </div>
+      <div class="menu-divider"></div>
+
+      <div class="language-section">
+        <div class="language-label">{{ 'language.label' | translate }}</div>
+        <div class="language-buttons">
+          <button mat-icon-button class="lang-btn" (click)="switchLang('es')">
+            <img src="assets/images/es.png" [alt]="'language.es' | translate" />
+          </button>
+          <button mat-icon-button class="lang-btn" (click)="switchLang('en')">
+            <img src="assets/images/en.png" [alt]="'language.en' | translate" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="toolbar-layout">
+      @if (isHandset$ | async) {
+        <button
+          type="button"
+          [attr.aria-label]="'toolbar.toggleSidenav' | translate"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon [attr.aria-label]="'icon.menu' | translate">menu</mat-icon>
+        </button>
+      }
+
+      <span class="spacer"></span>
+      <img [src]="logoUrl" [alt]="'toolbar.logoAlt' | translate" class="logo-img" />
+      <span class="spacer"></span>
+    </mat-toolbar>
+
+    <hr class="section-divider" />
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

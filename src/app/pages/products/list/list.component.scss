@@ -1,0 +1,59 @@
+.fab-button {
+    position: fixed;
+    right: 16px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  
+    border-radius: 8px;
+    padding: 0 16px;
+    height: 48px;
+    min-width: 48px;
+  
+    .icon-text {
+      display: none;
+    }
+  
+    @media (max-width: 599px) {
+      .label-text {
+        display: none;
+      }
+  
+      .icon-text {
+        display: inline;
+      }
+    }
+  }
+
+  .loading-container, .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    color: #888;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .search-field {
+    width: 50%;
+    margin-bottom: 1rem;
+  
+    ::ng-deep .mat-form-field-wrapper {
+      padding-bottom: 0px;
+    }
+  
+    ::ng-deep .mat-form-field-flex {
+      height: 40px;
+      align-items: center;
+    }
+  
+    ::ng-deep input.mat-input-element {
+      padding: 0 8px;
+      font-size: 14px;
+    }
+  }

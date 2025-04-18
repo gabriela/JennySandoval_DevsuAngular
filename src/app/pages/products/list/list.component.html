@@ -1,0 +1,35 @@
+<ng-container *ngIf="!loading && !error; else loadingOrError">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input
+      matInput
+      [(ngModel)]="filterValue"
+      (ngModelChange)="onSearchChange()"
+      [placeholder]="'common.search' | translate"
+    />
+  </mat-form-field>
+
+  <button mat-fab class="fab-button main-button" (click)="goToEdit()">
+    <span class="label-text">{{ 'buttons.add' | translate }}</span>
+    <span class="icon-text">+</span>
+  </button>
+
+  <app-data-table
+    [data]="filteredProducts"
+    [columns]="columns"
+    (edit)="goToEdit($event)"
+    (delete)="onDelete($event)">
+  </app-data-table>
+</ng-container>
+
+<ng-template #loadingOrError>
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>{{ 'common.loading' | translate }}</p>
+  </div>
+
+  <div *ngIf="!loading && error" class="error-container">
+    <mat-icon color="warn">error</mat-icon>
+    <p>{{ 'common.error' | translate }}</p>
+  </div>
+</ng-template>

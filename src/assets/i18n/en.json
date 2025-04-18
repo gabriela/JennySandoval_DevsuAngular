@@ -1,0 +1,84 @@
+{
+    "product": {
+      "name": "Product Name",
+      "description": "Description",
+      "id": "ID",
+      "logo": "Logo",
+      "date_release": "Release Date",
+      "date_revision": "Revision Date"
+    },
+    "common": {
+      "loading": "Loading...",
+      "error": "An error has occurred",
+      "search": "Search"
+    },
+    "menu": {
+      "title": "Menu",
+      "list": "List",
+      "add": "Add"
+    },
+    "language": {
+      "label": "Language",
+      "es": "Spanish",
+      "en": "English"
+    },
+    "toolbar": {
+      "toggleSidenav": "Toggle side menu",
+      "logoAlt": "Bank logo"
+    },
+    "icon": {
+      "menu": "Menu"
+    },
+    "form": {
+      "title": {
+        "new": "Registration Form",
+        "edit": "Edit Product"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "Name",
+        "description": "Description",
+        "logo": "Logo",
+        "dateRelease": "Release Date",
+        "dateRevision": "Revision Date"
+      },
+      "errors": {
+        "idRequired": "Invalid ID",
+        "idMin": "Minimum 3 characters",
+        "idMax": "Maximum 10 characters",
+        "nameRequired": "Name is required",
+        "nameMin": "Minimum 5 characters",
+        "nameMax": "Maximum 100 characters",
+        "descriptionRequired": "Description is required",
+        "descriptionMin": "Minimum 10 characters",
+        "descriptionMax": "Maximum 200 characters",
+        "logoRequired": "Logo is required",
+        "logoPattern": "Must be a valid image URL",
+        "dateReleaseRequired": "Date is required",
+        "minDate": "Cannot be a date earlier than today",
+        "idTaken": "This ID is already in use"
+      },
+      "snackbar": {
+        "createSuccess": "Product successfully created",
+        "createError": "Error creating product",
+        "updateSuccess": "Product successfully updated",
+        "updateError": "Error updating product",
+        "deleteError": "Error deleting product"
+      }
+    },
+    "list": {
+      "deleteConfirmTitle": "Are you sure you want to delete the product \"{{name}}\"?"
+    },
+    "buttons": {
+      "reset": "Reset",
+      "add": "Add",
+      "update": "Update",
+      "accept": "Accept",
+      "close": "Close",
+      "edit": "Edit",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
+  }
+  

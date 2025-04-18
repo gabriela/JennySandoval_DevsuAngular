@@ -1,0 +1,46 @@
+.form-card {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.form-divider {
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0 auto 24px auto;
+  width: 80%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-field {
+  flex: 1;
+  min-width: 250px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}

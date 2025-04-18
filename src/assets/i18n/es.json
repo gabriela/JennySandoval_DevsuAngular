@@ -1,0 +1,83 @@
+{
+    "product": {
+        "name": "Nombre del producto",
+        "description": "Descripción",
+        "id": "Id",
+        "logo": "Logo",
+        "date_release": "Fecha de liberación",
+        "date_revision": "Fecha de reestructuración"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Ha ocurrido un error",
+        "search": "Buscar"
+    },
+    "menu": {
+        "title": "Menú",
+        "list": "Lista",
+        "add": "Agregar"
+    },
+    "language": {
+        "label": "Idioma",
+        "es": "Español",
+        "en": "Inglés"
+    },
+    "toolbar": {
+        "toggleSidenav": "Alternar menú lateral",
+        "logoAlt": "Logo banco"
+    },
+    "icon": {
+        "menu": "Menú"
+    },
+    "form": {
+        "title": {
+            "new": "Formulario de Registro",
+            "edit": "Editar Producto"
+        },
+        "fields": {
+            "id": "ID",
+            "name": "Nombre",
+            "description": "Descripción",
+            "logo": "Logo",
+            "dateRelease": "Fecha Liberación",
+            "dateRevision": "Fecha Revisión"
+        },
+        "errors": {
+            "idRequired": "ID no válido",
+            "idMin": "Mínimo 3 caracteres",
+            "idMax": "Máximo 10 caracteres",
+            "nameRequired": "Nombre requerido",
+            "nameMin": "Mínimo 5 caracteres",
+            "nameMax": "Máximo 100 caracteres",
+            "descriptionRequired": "Descripción requerida",
+            "descriptionMin": "Mínimo 10 caracteres",
+            "descriptionMax": "Máximo 200 caracteres",
+            "logoRequired": "Logo requerido",
+            "logoPattern": "Debe ser una URL válida de imagen",
+            "dateReleaseRequired": "Fecha requerida",
+            "minDate": "No puede ser una fecha anterior a hoy",
+            "idTaken": "Este ID ya está en uso"
+        },
+        "snackbar": {
+            "createSuccess": "Producto creado exitosamente",
+            "createError": "Error al crear producto",
+            "updateSuccess": "Producto actualizado exitosamente",
+            "updateError": "Error al actualizar producto",
+            "deleteError": "Error eliminando producto"
+        }
+    },
+    "list": {
+        "deleteConfirmTitle": "¿Seguro que deseas eliminar el producto \"{{name}}\"?"
+    },
+    "buttons": {
+        "reset": "Reiniciar",
+        "add": "Agregar",
+        "update": "Actualizar",
+        "accept": "Aceptar",
+        "close": "Cerrar",
+        "edit": "Editar",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar"
+    }
+}
