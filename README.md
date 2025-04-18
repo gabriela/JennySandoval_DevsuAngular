@@ -1,4 +1,4 @@
-> 🇬🇧 Looking for the English version? Check out the [English README](./README.md).
+> 🇬🇧 Looking for the English version? Check out the [English README](./README_EN.md).
 
 # Angular Interview App
 
