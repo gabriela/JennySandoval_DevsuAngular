@@ -10,7 +10,7 @@ describe('DataTableComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         DataTableComponent,
-        TranslateModule.forRoot() // ✅ Necesario para proveer TranslateService y TranslateStore
+        TranslateModule.forRoot()
       ]
     }).compileComponents();
 

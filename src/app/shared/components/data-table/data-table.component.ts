@@ -4,7 +4,7 @@ import {
   OnChanges, SimpleChanges, OnInit, HostListener, ElementRef
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule } from '@angular/forms'; // Necesario para [(ngModel)]
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-data-table',
@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms'; // Necesario para [(ngModel)]
   imports: [
     CommonModule,
     TranslateModule,
-    FormsModule // ✅ Necesario para ngModel del <select>
+    FormsModule 
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss']

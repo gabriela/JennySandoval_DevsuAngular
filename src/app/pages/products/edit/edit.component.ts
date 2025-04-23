@@ -83,7 +83,7 @@ export class EditComponent implements OnInit {
     setTimeout(() => {
       this.message = '';
       this.messageType = '';
-    }, 700);
+    }, 5000);
   }
 
   onIdBlur(): void {
@@ -153,7 +153,11 @@ export class EditComponent implements OnInit {
       },
       error: (err) => {
         const errorKey = this.isNew ? 'form.snackbar.createError' : 'form.snackbar.updateError';
-        this.showMessage(err.error?.message || this.translate.instant(errorKey), 'error');
+        let errorMessage = err.error?.message || this.translate.instant(errorKey);
+        if (err?.error?.errors) {
+          errorMessage += ` (${JSON.stringify(err.error.errors)})`;
+        }
+        this.showMessage(errorMessage, 'error');
       }
     });
   }

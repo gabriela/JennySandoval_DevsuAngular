@@ -180,11 +180,11 @@ describe('EditComponent', () => {
     expect(component.messageType).toBe('error');
   });
 
-  it('should clear message after 700ms in showMessage', () => {
+  it('should clear message after 5000ms in showMessage', () => {
     jest.useFakeTimers();
     component.showMessage('Test', 'success');
     expect(component.message).toBe('Test');
-    jest.advanceTimersByTime(700);
+    jest.advanceTimersByTime(5000);
     expect(component.message).toBe('');
     expect(component.messageType).toBe('');
     jest.useRealTimers();

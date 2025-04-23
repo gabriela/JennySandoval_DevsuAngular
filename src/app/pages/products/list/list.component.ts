@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
   error: string = '';
   filterValue: string = '';
   loading: boolean = true;
-  message: string = ''; // para mostrar mensajes simples en UI
+  message: string = '';
   columns: string[] = ['logo', 'name', 'description', 'date_release', 'date_revision'];
 
   private productService = inject(ProductService);
