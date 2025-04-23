@@ -6,10 +6,8 @@ This project is a frontend application developed with Angular. It simulates prod
 ## 🚀 Technologies Used
 
 - Angular 14+
-- Angular Material
 - Jest (for unit testing)
 - ngx-translate (for internationalization)
-- SweetAlert2
 - RxJS
 - SCSS
 

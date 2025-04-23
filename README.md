@@ -7,10 +7,8 @@ Este proyecto es una aplicación frontend desarrollada con Angular. Simula la ge
 ## 🚀 Tecnologías usadas
 
 - Angular 14+
-- Angular Material
 - Jest (para pruebas unitarias)
 - ngx-translate (para internacionalización)
-- SweetAlert2
 - RxJS
 - SCSS
 
