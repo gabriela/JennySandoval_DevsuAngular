@@ -1,106 +1,99 @@
-<mat-card class="form-card">
-  <mat-card-title class="form-title">
+<div *ngIf="message" [ngClass]="['alert', messageType]">
+  {{ message }}
+</div>
+<div *ngIf="!message" class="form-card">
+  <h2 class="form-title">
     {{ isNew ? ('form.title.new' | translate) : ('form.title.edit' | translate) }}
-  </mat-card-title>
+  </h2>
   <hr class="form-divider" />
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
     <div class="form-row">
       <!-- ID -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>{{ 'form.fields.id' | translate }}</mat-label>
-        <input matInput formControlName="id" (blur)="onIdBlur()"/>
-        <mat-error *ngIf="form.get('id')?.hasError('required')">
-          {{ 'form.errors.idRequired' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('id')?.hasError('minlength')">
-          {{ 'form.errors.idMin' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('id')?.hasError('maxlength')">
-          {{ 'form.errors.idMax' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('id')?.hasError('idTaken')">
-          {{ 'form.errors.idTaken' | translate }}
-        </mat-error>
-      </mat-form-field>
+      <div class="form-field">
+        <label>{{ 'form.fields.id' | translate }}</label>
+        <input type="text" formControlName="id" (blur)="onIdBlur()"/>
+        <div class="error" *ngIf="form.get('id')?.touched && form.get('id')?.errors">
+          <div *ngIf="form.get('id')?.hasError('required')">{{ 'form.errors.idRequired' | translate }}</div>
+          <div *ngIf="form.get('id')?.hasError('minlength')">{{ 'form.errors.idMin' | translate }}</div>
+          <div *ngIf="form.get('id')?.hasError('maxlength')">{{ 'form.errors.idMax' | translate }}</div>
+          <div *ngIf="form.get('id')?.hasError('idTaken')">{{ 'form.errors.idTaken' | translate }}</div>
+        </div>
+      </div>
 
       <!-- Nombre -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>{{ 'form.fields.name' | translate }}</mat-label>
-        <input matInput formControlName="name" />
-        <mat-error *ngIf="form.get('name')?.hasError('required')">
-          {{ 'form.errors.nameRequired' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
-          {{ 'form.errors.nameMin' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('name')?.hasError('maxlength')">
-          {{ 'form.errors.nameMax' | translate }}
-        </mat-error>
-      </mat-form-field>
+      <div class="form-field">
+        <label>{{ 'form.fields.name' | translate }}</label>
+        <input type="text" formControlName="name" />
+        <div class="error" *ngIf="form.get('name')?.touched && form.get('name')?.errors">
+          <div *ngIf="form.get('name')?.hasError('required')">{{ 'form.errors.nameRequired' | translate }}</div>
+          <div *ngIf="form.get('name')?.hasError('minlength')">{{ 'form.errors.nameMin' | translate }}</div>
+          <div *ngIf="form.get('name')?.hasError('maxlength')">{{ 'form.errors.nameMax' | translate }}</div>
+        </div>
+      </div>
     </div>
 
     <div class="form-row">
       <!-- Descripción -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>{{ 'form.fields.description' | translate }}</mat-label>
-        <textarea matInput formControlName="description"></textarea>
-        <mat-error *ngIf="form.get('description')?.hasError('required')">
-          {{ 'form.errors.descriptionRequired' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('description')?.hasError('minlength')">
-          {{ 'form.errors.descriptionMin' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('description')?.hasError('maxlength')">
-          {{ 'form.errors.descriptionMax' | translate }}
-        </mat-error>
-      </mat-form-field>
+      <div class="form-field">
+        <label>{{ 'form.fields.description' | translate }}</label>
+        <textarea formControlName="description"></textarea>
+        <div class="error" *ngIf="form.get('description')?.touched && form.get('description')?.errors">
+          <div *ngIf="form.get('description')?.hasError('required')">{{ 'form.errors.descriptionRequired' | translate }}</div>
+          <div *ngIf="form.get('description')?.hasError('minlength')">{{ 'form.errors.descriptionMin' | translate }}</div>
+          <div *ngIf="form.get('description')?.hasError('maxlength')">{{ 'form.errors.descriptionMax' | translate }}</div>
+        </div>
+      </div>
 
       <!-- Logo -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>{{ 'form.fields.logo' | translate }}</mat-label>
-        <input matInput formControlName="logo" />
-        <mat-error *ngIf="form.get('logo')?.hasError('required')">
-          {{ 'form.errors.logoRequired' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('logo')?.hasError('pattern')">
-          {{ 'form.errors.logoPattern' | translate }}
-        </mat-error>
-      </mat-form-field>
+      <div class="form-field">
+        <label>{{ 'form.fields.logo' | translate }}</label>
+        <input type="text" formControlName="logo" />
+        <div class="error" *ngIf="form.get('logo')?.touched && form.get('logo')?.errors">
+          <div *ngIf="form.get('logo')?.hasError('required')">{{ 'form.errors.logoRequired' | translate }}</div>
+          <div *ngIf="form.get('logo')?.hasError('pattern')">{{ 'form.errors.logoPattern' | translate }}</div>
+        </div>
+      </div>
     </div>
 
     <div class="form-row">
       <!-- Fecha liberación -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>{{ 'form.fields.dateRelease' | translate }}</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="date_release" [min]="today"/>
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-        <mat-error *ngIf="form.get('date_release')?.hasError('required')">
-          {{ 'form.errors.dateReleaseRequired' | translate }}
-        </mat-error>
-        <mat-error *ngIf="form.get('date_release')?.hasError('minDate')">
-          {{ 'form.errors.minDate' | translate }}
-        </mat-error>
-      </mat-form-field>
+      <div class="form-field">
+        <label>{{ 'form.fields.dateRelease' | translate }}</label>
+        <input
+          *ngIf="!isNew"
+          type="text"
+          [value]="form.get('date_release')?.value | date:'MM/dd/yyyy'"
+          disabled
+        />
+        <input *ngIf ="isNew" type="date" formControlName="date_release" [min]="today | date:'yyyy-MM-dd'"/>
+        <div class="error" *ngIf="form.get('date_release')?.touched && form.get('date_release')?.errors">
+          <div *ngIf="form.get('date_release')?.hasError('required')">{{ 'form.errors.dateReleaseRequired' | translate }}</div>
+          <div *ngIf="form.get('date_release')?.hasError('minDate')">{{ 'form.errors.minDate' | translate }}</div>
+        </div>
+      </div>
 
       <!-- Fecha revisión -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>{{ 'form.fields.dateRevision' | translate }}</mat-label>
-        <input matInput formControlName="date_revision" />
-      </mat-form-field>
+      <div class="form-field">
+        <label>{{ 'form.fields.dateRevision' | translate }}</label>        
+        <input        
+          type="text"
+          [value]="form.get('date_revision')?.value | date:'MM/dd/yyyy'"
+          disabled
+        />
+      </div>
     </div>
 
     <div class="button-group">
-      <button *ngIf="isNew" mat-stroked-button color="primary" type="button" (click)="onReset()">
+      <button *ngIf="isNew" type="button" (click)="onReset()">
         {{ 'buttons.reset' | translate }}
       </button>
-      <button mat-raised-button color="accent" type="submit" class="main-button" [disabled]="form.invalid">
+      <button type="submit" [disabled]="form.invalid">
         {{ isNew ? ('buttons.add' | translate) : ('buttons.update' | translate) }}
       </button>
-      <button mat-stroked-button color="warn" type="button" (click)="onCancel()">
+      <button type="button" (click)="onCancel()">
         {{ 'buttons.cancel' | translate }}
       </button>
     </div>
   </form>
-</mat-card>
+</div>

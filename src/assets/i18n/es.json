@@ -10,7 +10,8 @@
     "common": {
         "loading": "Cargando...",
         "error": "Ha ocurrido un error",
-        "search": "Buscar"
+        "search": "Buscar",
+        "itemsPerPage": "Items por página"
     },
     "menu": {
         "title": "Menú",

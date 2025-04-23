@@ -4,14 +4,6 @@ import { ListComponent } from './list.component';
 import { ProductService } from '../../../services/product/product.service';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-// 🧪 Mock global de SweetAlert
-import Swal from 'sweetalert2';
-
-jest.mock('sweetalert2', () => ({
-  fire: jest.fn().mockResolvedValue({ isConfirmed: true })
-}));
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -26,10 +18,6 @@ describe('ListComponent', () => {
     navigate: jest.fn()
   };
 
-  const snackBarMock = {
-    open: jest.fn()
-  };
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -39,7 +27,6 @@ describe('ListComponent', () => {
       providers: [
         { provide: ProductService, useValue: productServiceMock },
         { provide: Router, useValue: routerMock },
-        { provide: MatSnackBar, useValue: snackBarMock },
         TranslateService,
         TranslateStore
       ]
@@ -89,7 +76,8 @@ describe('ListComponent', () => {
     expect(component.loading).toBe(false);
   });
 
-  it('should call delete when confirmed', async () => {
+  it('should delete product when confirmed', () => {
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
     const product = {
       id: '123',
       name: 'Mock Product',
@@ -98,44 +86,27 @@ describe('ListComponent', () => {
       date_release: '',
       date_revision: ''
     };
-
-    (Swal.fire as jest.Mock).mockResolvedValueOnce({ isConfirmed: true });
-    productServiceMock.delete.mockReturnValueOnce(of({ message: 'Deleted!' }));
-
-    await component.onDelete(product);
-    fixture.detectChanges();
-
-    expect(productServiceMock.delete).toHaveBeenCalledWith('123');
-    expect(snackBarMock.open).not.toHaveBeenCalledWith(
-      expect.any(String),
-      expect.any(String),
-      expect.objectContaining({
-        duration: 5000,
-        panelClass: ['snackbar-success'],
-        horizontalPosition: 'right',
-        verticalPosition: 'top'
-      })
-    );
-  });
-
-  it('should NOT call delete when cancelled', fakeAsync(() => {
-    const product = {
-      id: '123',
-      name: 'Mock Product',
-      description: '',
-      logo: '',
-      date_release: '',
-      date_revision: ''
-    };
-
-    (Swal.fire as jest.Mock).mockResolvedValueOnce({ isConfirmed: false }); // usuario cancela
 
     component.onDelete(product);
-    tick();
+    expect(confirmSpy).toHaveBeenCalled();
+    expect(productServiceMock.delete).toHaveBeenCalledWith('123');
+  });
 
+  it('should NOT delete product when cancelled', () => {
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(false);
+    const product = {
+      id: '123',
+      name: 'Mock Product',
+      description: '',
+      logo: '',
+      date_release: '',
+      date_revision: ''
+    };
+
+    component.onDelete(product);
+    expect(confirmSpy).toHaveBeenCalled();
     expect(productServiceMock.delete).not.toHaveBeenCalled();
-    expect(snackBarMock.open).not.toHaveBeenCalled();
-  }));
+  });
 
   it('should not call delete when product is null', () => {
     component.onDelete(null);

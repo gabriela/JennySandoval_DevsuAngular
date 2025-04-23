@@ -1,14 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainComponent } from './main.component';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { AsyncPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -18,14 +11,8 @@ describe('MainComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MainComponent,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatListModule,
-        MatIconModule,
-        AsyncPipe,
-        RouterModule.forRoot([]),
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        RouterModule.forRoot([])
       ]
     }).compileComponents();
   }));
@@ -36,7 +23,22 @@ describe('MainComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should compile', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should toggle sidenav state', () => {
+    component.showSidenav = true;
+    document.body.innerHTML = `<div class="sidenav"></div>`;
+    component.toggleSidenav();
+    expect(component.showSidenav).toBe(false);
+    const sidenav = document.querySelector('.sidenav');
+    expect(sidenav?.classList.contains('closed')).toBe(true);
+  });
+
+  it('should switch language', () => {
+    const spy = jest.spyOn(component['translate'], 'use');
+    component.switchLang('es');
+    expect(spy).toHaveBeenCalledWith('es');
   });
 });

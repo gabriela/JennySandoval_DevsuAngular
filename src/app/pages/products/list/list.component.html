@@ -1,19 +1,27 @@
 <ng-container *ngIf="!loading && !error; else loadingOrError">
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>{{ 'common.search' | translate }}</mat-label>
-    <input
-      matInput
-      [(ngModel)]="filterValue"
-      (ngModelChange)="onSearchChange()"
-      [placeholder]="'common.search' | translate"
-    />
-  </mat-form-field>
+  <div class="container">
+    <div class="row">
+      <div class="col-8">
+        <div class="search-field">        
+          <input
+            id="search"
+            type="text"
+            [(ngModel)]="filterValue"
+            (ngModelChange)="onSearchChange()"
+            [placeholder]="'common.search' | translate"
+          />
+        </div>
+      </div>
+      <div class="col-4">
+        <button class="fab-button main-button" (click)="goToEdit()">
+          <span class="label-text">{{ 'buttons.add' | translate }}</span>
+          <span class="icon-text">+</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <button mat-fab class="fab-button main-button" (click)="goToEdit()">
-    <span class="label-text">{{ 'buttons.add' | translate }}</span>
-    <span class="icon-text">+</span>
-  </button>
-
+  <!-- Tabla de datos -->
   <app-data-table
     [data]="filteredProducts"
     [columns]="columns"
@@ -22,14 +30,15 @@
   </app-data-table>
 </ng-container>
 
+<!-- Cargando o error -->
 <ng-template #loadingOrError>
   <div *ngIf="loading" class="loading-container">
-    <mat-spinner diameter="50"></mat-spinner>
+    <div class="spinner"></div>
     <p>{{ 'common.loading' | translate }}</p>
   </div>
 
   <div *ngIf="!loading && error" class="error-container">
-    <mat-icon color="warn">error</mat-icon>
+    <div class="error-icon">⚠️</div>
     <p>{{ 'common.error' | translate }}</p>
   </div>
 </ng-template>

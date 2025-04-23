@@ -1,77 +1,115 @@
 import { CommonModule } from '@angular/common';
 import {
-  Component, EventEmitter, Input, Output, ViewChild,
-  AfterViewInit, OnChanges, SimpleChanges,
-  OnInit
+  Component, EventEmitter, Input, Output,
+  OnChanges, SimpleChanges, OnInit, HostListener, ElementRef
 } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule } from '@angular/forms'; // Necesario para [(ngModel)]
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     TranslateModule,
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule
+    FormsModule // ✅ Necesario para ngModel del <select>
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss']
 })
-export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
+export class DataTableComponent implements OnInit, OnChanges {
   @Input() data: any[] = [];
   @Input() columns: string[] = [];
+  @Input() filter: string = '';
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
 
   displayedColumns: string[] = [];
-  dataSource = new MatTableDataSource<any>([]);
+  filteredData: any[] = [];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // Paginación
+  currentPage = 0;
+  pageSize = 5;
+  pagedData: any[] = [];
 
-  @Input() set filter(value: string) {
-    this.dataSource.filter = value.trim().toLowerCase();
-  }
+  dropdownOpen: any = null;
+
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.dataSource.filterPredicate = (data, filter: string): boolean => {
-      return Object.values(data).some(val =>
-        String(val).toLowerCase().includes(filter)
-      );
-    };
+    this.displayedColumns = [...this.columns, 'actions'];
+    this.applyFilter();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']) {
-      this.dataSource.data = this.data;
-    }
-
-    if (changes['columns']) {
-      this.displayedColumns = [...this.columns, 'actions'];
+    if (changes['data'] || changes['filter']) {
+      this.applyFilter();
     }
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+  applyFilter(): void {
+    const filterValue = this.filter.trim().toLowerCase();
+    this.filteredData = this.data.filter(item =>
+      Object.values(item).some(val =>
+        String(val).toLowerCase().includes(filterValue)
+      )
+    );
+    this.currentPage = 0;
+    this.paginate();
+  }
+
+  paginate(): void {
+    const start = this.currentPage * this.pageSize;
+    const end = start + this.pageSize;
+    this.pagedData = this.filteredData.slice(start, end);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.paginate();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.paginate();
+    }
+  }
+
+  onPageSizeChange(): void {
+    this.currentPage = 0;
+    this.paginate();
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredData.length / this.pageSize);
   }
 
   isIsoDate(value: any): boolean {
-    return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value);
+    return typeof value === 'string' && /^\d{2}-\d{2}-\d{4}T/.test(value);
   }
 
-  onEdit(id: any) {
-    this.edit.emit(id);
+  onEdit(item: any) {
+    this.edit.emit(item);
+    this.dropdownOpen = null;
   }
 
-  onDelete(id: any) {
-    this.delete.emit(id);
+  onDelete(item: any) {
+    this.delete.emit(item);
+    this.dropdownOpen = null;
+  }
+
+  toggleDropdown(item: any): void {
+    this.dropdownOpen = this.dropdownOpen === item ? null : item;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.dropdownOpen = null;
+    }
   }
 }

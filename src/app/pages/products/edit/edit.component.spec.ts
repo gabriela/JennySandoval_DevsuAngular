@@ -3,9 +3,9 @@ import { EditComponent } from './edit.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../services/product/product.service';
 import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { of, throwError } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { formatDate } from '../../../model/product';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -39,12 +39,6 @@ describe('EditComponent', () => {
     navigate: jest.fn()
   };
 
-  const snackBarMock = {
-    open: jest.fn(() => ({
-      afterDismissed: () => of({})
-    }))
-  };
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [EditComponent, ReactiveFormsModule, TranslateModule.forRoot()],
@@ -52,7 +46,6 @@ describe('EditComponent', () => {
         { provide: ActivatedRoute, useValue: routeMock },
         { provide: ProductService, useValue: productServiceMock },
         { provide: Router, useValue: routerMock },
-        { provide: MatSnackBar, useValue: snackBarMock },
         TranslateService,
         TranslateStore
       ]
@@ -132,7 +125,68 @@ describe('EditComponent', () => {
     const validator = component.minDateValidator();
     const past = new Date(Date.now() - 86400000); // ayer
     const future = new Date(Date.now() + 86400000);
-    expect(validator({ value: past } as AbstractControl)).toEqual({ minDate: true });
-    expect(validator({ value: future } as AbstractControl)).toBeNull();
+    expect(validator({ value: formatDate(past) } as AbstractControl)).toEqual({ minDate: true });
+    expect(validator({ value: formatDate(future) } as AbstractControl)).toBeNull();
+  });
+
+  it('should call create and navigate on successful new product submission', () => {
+    component.isNew = true;
+    component.form.setValue(mockProduct);
+    productServiceMock.create.mockReturnValue(of({ message: 'Created!', data: { id: 'PROD1' } }));
+
+    jest.useFakeTimers();
+    component.onSubmit();
+    jest.advanceTimersByTime(700);
+
+    expect(productServiceMock.create).toHaveBeenCalledWith(mockProduct);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/products', 'PROD1']);
+    jest.useRealTimers();
+  });
+
+  it('should call update and show message on existing product submission', () => {
+    routeMock.snapshot.paramMap.get.mockReturnValue('PROD1');
+    component.isNew = false;
+    component.productId = 'PROD1';
+    component.form.setValue(mockProduct);
+    productServiceMock.update.mockReturnValue(of({ message: 'Updated!' }));
+
+    component.onSubmit();
+
+    expect(productServiceMock.update).toHaveBeenCalledWith('PROD1', mockProduct);
+    expect(component.message).toBe('Updated!');
+    expect(component.messageType).toBe('success');
+  });
+
+  it('should show error message if create fails', () => {
+    component.isNew = true;
+    component.form.setValue(mockProduct);
+    productServiceMock.create.mockReturnValue(throwError(() => ({ error: { message: 'Create failed' } })));
+
+    component.onSubmit();
+
+    expect(component.message).toBe('Create failed');
+    expect(component.messageType).toBe('error');
+  });
+
+  it('should show error message if update fails', () => {
+    component.isNew = false;
+    component.productId = 'PROD1';
+    component.form.setValue(mockProduct);
+    productServiceMock.update.mockReturnValue(throwError(() => ({ error: { message: 'Update failed' } })));
+
+    component.onSubmit();
+
+    expect(component.message).toBe('Update failed');
+    expect(component.messageType).toBe('error');
+  });
+
+  it('should clear message after 700ms in showMessage', () => {
+    jest.useFakeTimers();
+    component.showMessage('Test', 'success');
+    expect(component.message).toBe('Test');
+    jest.advanceTimersByTime(700);
+    expect(component.message).toBe('');
+    expect(component.messageType).toBe('');
+    jest.useRealTimers();
   });
 });

@@ -1,58 +1,52 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
-
-    <!-- Generar columnas dinámicamente -->
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ ('product.' + column) | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">
-        <ng-container *ngIf="column === 'logo'; else checkDate">
-          <img [src]="element[column]" alt="logo" class="logo-img" />
-        </ng-container>
-
-        <ng-template #checkDate>
-          <ng-container *ngIf="isIsoDate(element[column]); else defaultCell">
-            {{ element[column] | date: 'dd/MM/yyyy' }}
+<div class="custom-table-container">
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">
+          {{ ('product.' + column) | translate }}
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let element of pagedData">
+        <td *ngFor="let column of columns">
+          <ng-container *ngIf="column === 'logo'; else defaultCell">
+            <img [src]="element[column]" alt="logo" class="logo-img" />
           </ng-container>
-        </ng-template>
 
-        <ng-template #defaultCell>
-          {{ element[column] }}
-        </ng-template>
-      </td>
-    </ng-container>
-
-    <!-- Columna acciones -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-    
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onEdit(element)">
-            <mat-icon>edit</mat-icon>
-            <span>{{ 'buttons.edit' | translate }}</span>
-          </button>
-          <button mat-menu-item (click)="onDelete(element)">
-            <mat-icon>delete</mat-icon>
-            <span>{{ 'buttons.delete' | translate }}</span>
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <!-- Filas -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <ng-template #defaultCell>
+            {{ element[column] }}
+          </ng-template>
+        </td>
+        <td class="action-cell">
+          <div class="dropdown-wrapper">
+            <button class="action-button" (click)="toggleDropdown(element)">
+              &#x22EE;
+            </button>
+            <ul *ngIf="dropdownOpen === element" class="dropdown-menu">
+              <li (click)="onEdit(element)">✏️ {{'buttons.edit' | translate}}</li>
+              <li (click)="onDelete(element)">❌  {{ 'buttons.delete' | translate }}</li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
   </table>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-    aria-label="Seleccionar página"
-  >
-  </mat-paginator>
+  <div class="pagination-controls">
+    <label for="itemsPerPage" class="items-label">
+      {{ 'common.itemsPerPage' | translate }}:
+    </label>
+    <select id="itemsPerPage" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+    </select>
+  
+    <button (click)="prevPage()" [disabled]="currentPage === 0">«</button>
+    <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">»</button>
+  </div>
+  
 </div>

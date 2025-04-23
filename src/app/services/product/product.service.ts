@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Product} from '../../model/product';
+import { normalizeProductDates, Product} from '../../model/product';
 
 export interface Response {
   data: Product,
@@ -20,12 +20,14 @@ export class ProductService {
 
   getAll(): Observable<Product[]> {
     return this.http.get<{ data: Product[] }>(this.baseUrl).pipe(
-      map(response => response.data)
+      map(response => response.data.map(normalizeProductDates))
     );
   }
 
   getById(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/${id}`);
+    return this.http.get<Product>(`${this.baseUrl}/${id}`).pipe(
+      map(normalizeProductDates)
+    );
   }
 
   verifyId(id: string): Observable<boolean> {
